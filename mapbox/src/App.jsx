@@ -1,23 +1,139 @@
 import { useState } from 'react'
 import './App.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import ReactMapGL from 'react-map-gl'
+import ReactMapGL, { NavigationControl, Source , Layer } from 'react-map-gl'
 function App() {
-  // 'pk.eyJ1IjoiYWFyeWF0aXdhcmkiLCJhIjoiY2xnZDZhZmxwMDVlYTNncWZwc2ViNThnbiJ9.b5gkUgo-Im8y5Isc_D2pSg'
+  const layerStyle = {
+    id: 'point',
+    type: 'circle',
+    paint: {
+      'circle-radius': 10,
+      'circle-color': '#007cbf'
+    }
+  };
+
+  const data = {
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Lincoln Park",
+          "description": "A northside park that is home to the Lincoln Park Zoo"
+        },
+        "geometry": {
+          "coordinates": [-87.637596, 41.940403],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Burnham Park",
+          "description": "A lakefront park on Chicago's south side"
+        },
+        "geometry": {
+          "coordinates": [-87.603735, 41.829985],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Millennium Park",
+          "description": "A downtown park known for its art installations and unique architecture"
+        },
+        "geometry": {
+          "coordinates": [-87.622554, 41.882534],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Grant Park",
+          "description": "A downtown park that is the site of many of Chicago's favorite festivals and events"
+        },
+        "geometry": {
+          "coordinates": [-87.619185, 41.876367],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Humboldt Park",
+          "description": "A large park on Chicago's northwest side"
+        },
+        "geometry": {
+          "coordinates": [-87.70199, 41.905423],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Douglas Park",
+          "description": "A large park near in Chicago's North Lawndale neighborhood"
+        },
+        "geometry": {
+          "coordinates": [-87.699329, 41.860092],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Calumet Park",
+          "description": "A park on the Illinois-Indiana border featuring a historic fieldhouse"
+        },
+        "geometry": {
+          "coordinates": [-87.530221, 41.715515],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Jackson Park",
+          "description": "A lakeside park that was the site of the 1893 World's Fair"
+        },
+        "geometry": {
+          "coordinates": [-87.580389, 41.783185],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Columbus Park",
+          "description": "A large park in Chicago's Austin neighborhood"
+        },
+        "geometry": {
+          "coordinates": [-87.769775, 41.873683],
+          "type": "Point"
+        }
+      }
+    ],
+    "type": "FeatureCollection"
+  }
   const [viewport, setViewPort] = useState({
-    latitude: 45.4211,
-    longitude: -75.6903,
+    latitude: 19.0737,
+    longitude: 72.8992,
+    zoom: 14
   })
   return (
     <div>
       <ReactMapGL
+        initialViewState={viewport}
         mapboxAccessToken='pk.eyJ1IjoiYWFyeWF0aXdhcmkiLCJhIjoiY2xnZDZhZmxwMDVlYTNncWZwc2ViNThnbiJ9.b5gkUgo-Im8y5Isc_D2pSg'
         mapStyle={"mapbox://styles/mapbox/streets-v11"}
         style={{ width: '300px', height: '300px' }}
-        onViewportChange={viewport => {
-          setViewPort(viewport);
-      }}
-      />
+      >
+        <NavigationControl />
+        <Source id="my-data" type="geojson" data={data}>
+          <Layer {...layerStyle} />
+        </Source>
+      </ReactMapGL>
     </div>
 
   )
